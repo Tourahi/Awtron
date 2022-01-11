@@ -39,8 +39,8 @@ export class Stage
         --{color: Colors.magenta}
       -- Gtimer\after 5, -> o\die!
 
-    --if input\down 'l'
-      --Leak.report!
+    if input\down 'l'
+      Leak.report!
 
 
   draw: () =>

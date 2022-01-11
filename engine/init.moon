@@ -9,7 +9,7 @@ export Vector2D = assert require PATH..".Vector2D"
 export Tiler = assert require PATH..".Tiler"
 export Camera = assert require PATH..".Camera"
 export Colors = assert require PATH..".Colors"
-
+export Leak = assert require PATH..".Leak"
 
 -- Love based lua modules
 export Log = assert require PATH..".external.Log.log"

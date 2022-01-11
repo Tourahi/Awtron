@@ -1,6 +1,7 @@
 assert require "engine"
 assert require "opts"
 
+
 -- Utils
 export Utils = assert require 'utils'
 export Gtimer = Timer!
@@ -45,6 +46,8 @@ with love
     Event = love.event
     if input\down 'escape' then Event.quit!
     timer\update dt * opts.slow
+    if G_currentRoom
+      G_currentRoom\update dt * opts.slow
 
   .draw = ->
     if G_currentRoom then G_currentRoom\draw!
