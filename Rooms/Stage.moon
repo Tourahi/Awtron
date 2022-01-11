@@ -16,6 +16,7 @@ export class Stage
       --\addCollisionClass 'Collectable', {ignores: {'Collectable', 'Projectile', 'Bebop'}}
 
     -- @player = @area\addGameObject 'Player', G_baseW/2, G_baseH/2
+    Log.debug @map.tilewidth
     @camera = Camera 0, 0, nil, nil, 2, 0, @map.width * @map.tilewidth, @map.height * @map.tilewidth
     @camera\setScale 2
     @camera\setFollowStyle "LOCKED"
@@ -48,6 +49,7 @@ export class Stage
       @map\drawLayers!
       @area\draw!
       MManager\draw!
+      --love.graphics.rectangle "fill", 100, 100, 32, 32
 
 
 

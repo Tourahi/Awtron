@@ -6,7 +6,7 @@ with love
     t.version = "11.3"                -- The LÖVE version this game was made for (string)
     t.console = false                  -- Attach a console (boolean, Windows only)
 
-    t.window.title = "" -- The window title (string)
+    t.window.title = "Awtron" -- The window title (string)
     t.window.icon = nil                -- Filepath to an image to use as the window's icon (string)
     t.window.width = G_baseW -- The window width (number)
     t.window.height = G_baseH -- The window height (number)
