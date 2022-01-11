@@ -16,6 +16,7 @@ export Log = assert require PATH..".external.Log.log"
 export Timer = assert require PATH..".external.EnhancedTimer.EnhancedTimer"
 assert require PATH..".external.MeowCore"
 export Physics = assert require PATH .. '.external.windfield.windfield'
+export Animation = assert require PATH..".external.anim8"
 
 with love
   .run = ->

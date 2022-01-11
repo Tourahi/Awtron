@@ -9,13 +9,14 @@ export class Stage
     @map = Tiler "assets/Maps/map.lua"
 
     -- Colli classes
-    --with @area.world
-      --\addCollisionClass 'Player'
+    with @area.world
+      \addCollisionClass 'Awtron'
       --\addCollisionClass 'Bebop', {ignores: {'Player'}}
       --\addCollisionClass 'Projectile', {ignores: {'Projectile', 'Player', 'Bebop'}}
       --\addCollisionClass 'Collectable', {ignores: {'Collectable', 'Projectile', 'Bebop'}}
 
-    -- @player = @area\addGameObject 'Player', G_baseW/2, G_baseH/2
+    @player = @area\addGameObject 'Awtron'
+
     Log.debug @map.tilewidth
     @camera = Camera 0, 0, nil, nil, 2, 0, @map.width * @map.tilewidth, @map.height * @map.tilewidth
     @camera\setScale 2
@@ -49,7 +50,6 @@ export class Stage
       @map\drawLayers!
       @area\draw!
       MManager\draw!
-      --love.graphics.rectangle "fill", 100, 100, 32, 32
 
 
 

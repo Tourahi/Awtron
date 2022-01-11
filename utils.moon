@@ -1,6 +1,7 @@
 
 import insert from table
 import remove from table
+import random from love.math
 
 Utils = {}
 Utils.room = {}

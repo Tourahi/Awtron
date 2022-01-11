@@ -1,3 +1,5 @@
+M = assert require 'moon'
+export Dump = M.p
 assert require "engine"
 assert require "opts"
 
@@ -20,7 +22,7 @@ with love
     export timer = Timer!
 
     objectFiles = {}
-    Utils.recEnumerate 'src/objects', objectFiles
+    Utils.recEnumerate 'src/Objects', objectFiles
     Utils.requireFiles objectFiles
     roomFiles = {}
     Utils.recEnumerate 'Rooms', roomFiles
