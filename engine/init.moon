@@ -8,11 +8,14 @@ export Signal = assert require PATH..".Signal"
 export Vector2D = assert require PATH..".Vector2D"
 export Tiler = assert require PATH..".Tiler"
 export Camera = assert require PATH..".Camera"
+export Colors = assert require PATH..".Colors"
+
 
 -- Love based lua modules
 export Log = assert require PATH..".external.Log.log"
-export MeowC = assert require PATH..".external.MeowCore"
-
+export Timer = assert require PATH..".external.EnhancedTimer.EnhancedTimer"
+assert require PATH..".external.MeowCore"
+export Physics = assert require PATH .. '.external.windfield.windfield'
 
 with love
   .run = ->
