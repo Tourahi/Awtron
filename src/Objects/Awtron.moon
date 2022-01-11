@@ -28,7 +28,7 @@ export class Awtron extends GameObject
 
     @currentAnimation = @animation.move
 
-    @collider = area.world\newCircleCollider @x, @y, @w
+    @collider = area.world\newRectangleCollider @x, @y, @w/2, @h
     with @collider
       \setObject self
       \setCollisionClass 'Awtron'
@@ -36,8 +36,6 @@ export class Awtron extends GameObject
   update: (dt) =>
     super dt
     ww = G_baseW/opts.scale
-
-
 
     @v = math.min @v + @a*dt, @maxV
 
@@ -59,7 +57,9 @@ export class Awtron extends GameObject
     @currentAnimation\update dt
 
   draw: =>
-    @currentAnimation\draw @spriteSheet, @x, @y, 0, @dir, 1, 16
+    @currentAnimation\draw @spriteSheet, @x, @y - 16, 0, @dir, 1, 16
+    @area.world\draw!
+
 
   destroy: =>
     super self

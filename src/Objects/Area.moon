@@ -46,6 +46,10 @@ export class Area
 
   addPhysicsWorld: =>
     @world = Physics.newWorld 0, 0, true
+    @leftWall = @world\newRectangleCollider 0, 0, 16, G_baseH/opts.scale
+    @rightWall = @world\newRectangleCollider G_baseW/opts.scale - 16, 0, 16, G_baseH/opts.scale
+    @leftWall\setType 'static'
+    @rightWall\setType 'static'
 
   filterGameObjects: (filter)=>
     filtred = {}

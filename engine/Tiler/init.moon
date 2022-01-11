@@ -1255,6 +1255,7 @@ class Tiler
         { x:  1, y: 3 },
       }
 
+
       offsets = staggerX and offsetsStaggerX or offsetsStaggerY
 
       return referenceX + offsets[nearest].x, referenceY + offsets[nearest].y
