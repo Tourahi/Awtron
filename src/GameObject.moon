@@ -15,7 +15,6 @@ export class GameObject
     @dead = false
     @depth = 50
     @collider = nil
-    @spriteSheet = Graphics.newImage 'assets/Awtron.png'
 
   update: (dt) =>
     if @timer

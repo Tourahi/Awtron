@@ -1,10 +1,11 @@
 #### Awtron
 
-- [ ] Player
+- [X] Player
 
-  - [ ] Animation
-  - [ ] Collision
-  - [ ] Movement
-  - [ ] Don't allow it outside the screen
+  - [X] Animation
+  - [X] Collision
+  - [X] Movement
+  - [X] Don't allow it outside the screen
 
-   
+- [ ] Enviroment && Content
+
