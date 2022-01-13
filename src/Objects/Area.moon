@@ -13,6 +13,8 @@ export class Area
         root\addChildCore widget
 
     @gameObjects = {}
+    @mapObjects  = @room.map.objects
+    @attachMapObjects!
 
   update: (dt) =>
     if Gtimer then Gtimer\update dt
@@ -37,6 +39,9 @@ export class Area
     insert @gameObjects, gameObject
     gameObject
 
+  attachMapObjects: =>
+    for _, object in pairs @mapObjects
+      Log.debug "Tiled Object : " .. object.name
 
   getCamera: =>
     @room.camera

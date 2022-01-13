@@ -2,11 +2,12 @@ MManager = MeowC.core.Manager
 
 export class Stage
   new: =>
+
+    @map = Tiler "assets/Maps/map.lua"
+
     -- Area
     @area = Area self, nil
     @area\addPhysicsWorld!
-
-    @map = Tiler "assets/Maps/map.lua"
 
     -- Colli classes
     with @area.world

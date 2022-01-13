@@ -24,14 +24,14 @@ export class Awtron extends GameObject
     @gridMv = Animation.newGrid 32, 32, @spriteSheetMovement\getWidth!, @spriteSheetMovement\getHeight!
     @gridEmo = Animation.newGrid 32, 32, @spriteSheetEmo\getWidth!, @spriteSheetEmo\getHeight!
 
-    @animation = {
+    @animations = {
       idle: Animation.newAnimation(self.gridMv('1-1', 1), 0.2)
       move: Animation.newAnimation(self.gridMv('2-7', 1), 0.1)
       emo: Animation.newAnimation(self.gridEmo('1-3', 1), 0.3)
     }
 
-    @currentAnimation = @animation.move
-    @currentEmotion = @animation.emo
+    @currentAnimation = @animations.move
+    @currentEmotion = @animations.emo
 
     @collider = area.world\newRectangleCollider @x, @y, @w/2, @h
     with @collider
@@ -46,18 +46,15 @@ export class Awtron extends GameObject
 
     if input\down 'right'
       @collider\setLinearVelocity @v, 0
-      @currentAnimation = @animation.move
+      @currentAnimation = @animations.move
       @dir = 1
     elseif input\down 'left'
       @collider\setLinearVelocity -@v, 0
-      @currentAnimation = @animation.move
+      @currentAnimation = @animations.move
       @dir = -1
     else
       @collider\setLinearVelocity 0, 0
-      @currentAnimation = @animation.idle
-
-
-
+      @currentAnimation = @animations.idle
 
     @currentAnimation\update dt
     @currentEmotion\update dt
