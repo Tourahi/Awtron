@@ -7,10 +7,13 @@ assert require "opts"
 -- Utils
 export Utils = assert require 'utils'
 export Gtimer = Timer!
+MManager = MeowC.core.Manager
 
 assert require 'src.Objects.Area'
 assert require 'src.GameObject'
 assert require 'src.InteractiveObject'
+
+
 
 with love
   .load = ->
@@ -18,6 +21,13 @@ with love
 
     Graphics.setDefaultFilter 'nearest', 'nearest'
     Graphics.setLineStyle 'rough'
+
+    export Fonts = {
+      Basteleur: 'assets/fonts/basteleur/fonts/ttf/Basteleur-Bold.ttf'
+      OuroborosR: 'assets/fonts/ouroboros-master/fonts/Ouroboros-Regular.otf'
+      TricksterM: 'assets/fonts/Trickster-master/fonts/Trickster-Reg.ttf'
+      FTitlesHand: 'assets/fonts/FoundationTitlesHand/FoundationTitlesHand-v0.85.ttf'
+    }
 
     export input = Input!
     export timer = Timer!
@@ -54,5 +64,26 @@ with love
 
   .draw = ->
     if G_currentRoom then G_currentRoom\draw!
+
+  .mousepressed = (x, y, button) ->
+    G_currentRoom\mousepressed x, y, button
+
+  .keypressed = (key, is_r) ->
+    G_currentRoom\keypressed key, is_r
+
+  .mousemoved = (x, y, button) ->
+    G_currentRoom\mousemoved x, y, button
+
+  .mousereleased = (x, y, button) ->
+    G_currentRoom\mousereleased x, y, button
+
+  .wheelmoved = (x, y) ->
+    G_currentRoom\wheelmoved x, y
+
+  .keyreleased = (key) ->
+    G_currentRoom\keyreleased key
+
+  .textinput = (text) ->
+    G_currentRoom\textinput text
 
 

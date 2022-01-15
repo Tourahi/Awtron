@@ -1,4 +1,5 @@
 MManager = MeowC.core.Manager
+Menu = assert require "src/GUI/Menu"
 
 export class Stage
   new: =>
@@ -27,6 +28,8 @@ export class Stage
 
     @area\attachMapObjects!
 
+    Menu\init!
+
     --Log.debug @player.id
 
 
@@ -52,6 +55,33 @@ export class Stage
       @map\drawLayers!
       @area\draw!
       MManager\draw!
+
+  mousepressed: (x, y, button) =>
+    x, y = @camera\toWorldCoords x, y
+    MManager\mousepressed x, y, button
+
+
+  keypressed: (key, is_r) =>
+    MManager\keypressed key, is_r
+
+
+  mousemoved: (x, y, button) =>
+    x, y = @camera\toWorldCoords x, y
+    MManager\mousemoved x, y, button
+
+  mousereleased: (x, y, button) =>
+    x, y = @camera\toWorldCoords x, y
+    MManager\mousereleased x, y, button
+
+  wheelmoved: (x, y) =>
+    x, y = @camera\toWorldCoords x, y
+    MManager\wheelmoved x, y
+
+  keyreleased: (key) =>
+    MManager\keyreleased key
+
+  textinput: (text) =>
+    MManager\textinput text
 
 
 

@@ -77,12 +77,12 @@ end
 
 Control.draw = function(self)
   if not self.visible then return end
-  self:clipBegin();
+  --self:clipBegin();
   self.events:dispatch(G_E("UI_DRAW"));
   for _,v in ipairs(self.children) do
     v:draw();
   end
-  self:clipEnd();
+  --self:clipEnd();
 end
 
 Control.setClip = function(self, isClip)
