@@ -14,7 +14,6 @@ export class Area
 
     @gameObjects = {}
     @mapObjects  = @room.map.objects
-    @attachMapObjects!
 
   update: (dt) =>
     if Gtimer then Gtimer\update dt
@@ -40,8 +39,17 @@ export class Area
     gameObject
 
   attachMapObjects: =>
-    for _, object in pairs @mapObjects
-      Log.debug "Tiled Object : " .. object.name
+    for _, o in pairs @mapObjects
+      Log.debug "Tiled Object : " .. o.name
+      if _G[o.name]
+        @addGameObject o.name, o.x, o.y, {
+          width: o.width,
+          height: o.height,
+          visible: o.visible,
+          shape: o.shape,
+          rot: o.rotation,
+          vertices: o.rectangle
+        }
 
   getCamera: =>
     @room.camera

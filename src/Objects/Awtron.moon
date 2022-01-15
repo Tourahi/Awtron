@@ -4,6 +4,7 @@ export class Awtron extends GameObject
   new: (area, x, y, _opts = {}) =>
     super area, x, y, _opts
 
+
     ww = G_baseW/opts.scale
     wh = G_baseH/opts.scale
 

@@ -171,7 +171,7 @@ class Tiler
 
         if not @cache[formattedPath]
           @fixTransparentColor tileset, formattedPath
-          @cacheImage formattedPath, tileset.image -- TODO: formattedPath no needed ??
+          @cacheImage formattedPath, tileset.image -- TODO: formattedPath not needed ??
         else
           tileset.image = @cache[formattedPath]
       -- SetTiles
@@ -671,7 +671,7 @@ class Tiler
 
   setObjectData: (layer) =>
     for _, object in ipairs(layer.objects)
-      object.layer            = layer
+      object.layer        = layer.name
       @objects[object.id] = object
 
   setFlippedGID: (gid) =>
@@ -954,7 +954,7 @@ class Tiler
 
     if layer.objects
       for i, object in pairs @objects
-        if object.layer == layer
+        if object.layer == layer.name
           @objects[i] = nil
 
 

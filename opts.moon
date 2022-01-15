@@ -11,4 +11,4 @@ with opts
   .gameScale = 1
   .slow = 1 -- secs
   .scale = 2 -- map size 480 - 320
-  .DEBUG = false
+  .DEBUG = true

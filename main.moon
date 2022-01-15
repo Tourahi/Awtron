@@ -10,6 +10,7 @@ export Gtimer = Timer!
 
 assert require 'src.Objects.Area'
 assert require 'src.GameObject'
+assert require 'src.InteractiveObject'
 
 with love
   .load = ->

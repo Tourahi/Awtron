@@ -12,7 +12,7 @@ export class Stage
     -- Colli classes
     with @area.world
       \addCollisionClass 'Awtron'
-      --\addCollisionClass 'Bebop', {ignores: {'Player'}}
+      \addCollisionClass 'Coffer', {ignores: {'Awtron'}}
       --\addCollisionClass 'Projectile', {ignores: {'Projectile', 'Player', 'Bebop'}}
       --\addCollisionClass 'Collectable', {ignores: {'Collectable', 'Projectile', 'Bebop'}}
 
@@ -25,6 +25,7 @@ export class Stage
     @camera\setFollowLerp 0.2
     @camera.drawDeadzone = true
 
+    @area\attachMapObjects!
 
     --Log.debug @player.id
 
