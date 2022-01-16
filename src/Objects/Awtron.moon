@@ -10,6 +10,7 @@ export class Awtron extends GameObject
 
     @x, @y = ww/2, wh - 62
     @w, @h = 20, 46
+    @ox, @oy = @w/2, @h/2
     @v = 0
     @a = 100
 
@@ -62,7 +63,7 @@ export class Awtron extends GameObject
 
   draw: =>
     x, y = @collider\getPosition!
-    @currentAnimation\draw @spriteSheetMovement, x, y, 0, @dir, 1, 10, 23
+    @currentAnimation\draw @spriteSheetMovement, x, y, 0, @dir, 1, @ox, @oy
     --@currentEmotion\draw @spriteSheetEmo, @x, @y - 16, 0, @dir, 1, 16
     if opts.DEBUG
       @area.world\draw!
