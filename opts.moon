@@ -14,4 +14,4 @@ with opts
   .scale = scale -- map size 480 - 320
   .gameW = G_baseW / scale
   .gameH = G_baseW / scale
-  .DEBUG = false
+  .DEBUG = true

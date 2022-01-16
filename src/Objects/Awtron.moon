@@ -8,8 +8,8 @@ export class Awtron extends GameObject
     ww = G_baseW/opts.scale
     wh = G_baseH/opts.scale
 
-    @x, @y = ww/2 - 16, wh - 48
-    @w, @h = 32, 32
+    @x, @y = ww/2, wh - 62
+    @w, @h = 20, 46
     @v = 0
     @a = 100
 
@@ -19,22 +19,22 @@ export class Awtron extends GameObject
 
     @dir = 1
 
-    @spriteSheetMovement = Graphics.newImage 'assets/Awtron.png'
-    @spriteSheetEmo = Graphics.newImage 'assets/AwtronEmo.png'
+    @spriteSheetMovement = Graphics.newImage 'assets/AwtronV2.png'
+    --@spriteSheetEmo = Graphics.newImage 'assets/AwtronEmo.png'
 
-    @gridMv = Animation.newGrid 32, 32, @spriteSheetMovement\getWidth!, @spriteSheetMovement\getHeight!
-    @gridEmo = Animation.newGrid 32, 32, @spriteSheetEmo\getWidth!, @spriteSheetEmo\getHeight!
+    @gridMv = Animation.newGrid 20, 46, @spriteSheetMovement\getWidth!, @spriteSheetMovement\getHeight!
+    --@gridEmo = Animation.newGrid 32, 32, @spriteSheetEmo\getWidth!, @spriteSheetEmo\getHeight!
 
     @animations = {
       idle: Animation.newAnimation(self.gridMv('1-1', 1), 0.2)
-      move: Animation.newAnimation(self.gridMv('2-7', 1), 0.1)
-      emo: Animation.newAnimation(self.gridEmo('1-3', 1), 0.3)
+      move: Animation.newAnimation(self.gridMv('1-2', 1), 0.1)
+      --emo: Animation.newAnimation(self.gridEmo('1-3', 1), 0.3)
     }
 
     @currentAnimation = @animations.move
-    @currentEmotion = @animations.emo
+    --@currentEmotion = @animations.emo
 
-    @collider = area.world\newRectangleCollider @x, @y, @w/2, @h
+    @collider = area.world\newRectangleCollider @x, @y, @w, @h
     with @collider
       \setObject self
       \setCollisionClass 'Awtron'
@@ -58,11 +58,12 @@ export class Awtron extends GameObject
       @currentAnimation = @animations.idle
 
     @currentAnimation\update dt
-    @currentEmotion\update dt
+    --@currentEmotion\update dt
 
   draw: =>
-    @currentAnimation\draw @spriteSheetMovement, @x, @y - 16, 0, @dir, 1, 16
-    @currentEmotion\draw @spriteSheetEmo, @x, @y - 16, 0, @dir, 1, 16
+    x, y = @collider\getPosition!
+    @currentAnimation\draw @spriteSheetMovement, x, y, 0, @dir, 1, 10, 23
+    --@currentEmotion\draw @spriteSheetEmo, @x, @y - 16, 0, @dir, 1, 16
     if opts.DEBUG
       @area.world\draw!
 
