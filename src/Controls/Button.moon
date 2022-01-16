@@ -15,6 +15,7 @@ Button = Control\extend "Button",{
   textDrawable: nil
   iconImg: nil
   border: 0
+  Etimer: nil
 }
 
 
@@ -35,8 +36,12 @@ with Button
     -- @setClip true
     @setEnabled true
 
+
+    @Etimer = Timer!
+
     -- Events
     @on "UI_DRAW", @onDraw, self
+    @on "UI_UPDATE", @onUpdate, self
     @on "UI_MOUSE_ENTER", @onMouseEnter, self
     @on "UI_MOUSE_LEAVE", @onMouseLeave, self
     @on "UI_MOUSE_DOWN", @onMouseDown, self
@@ -105,6 +110,12 @@ with Button
       Graphics.draw icon, iconX, iconY
 
     Graphics.setColor r, g, b, a
+
+
+  .onUpdate = (dt) =>
+    if @Etimer
+      @Etimer\update dt
+
 
 
   .onClick = (cb) =>
@@ -179,6 +190,14 @@ with Button
 
   .setBorder = (b) =>
     @border = b
+
+  .flashOn = =>
+    @Etimer\every 0.3, ->
+      --@isHovred = not @isHovred
+      @isPressed = not @isPressed
+
+  .setBorderColor = (b) =>
+    @theme.strokeColor = b
 
   .setDrawBorder = (b) =>
     @drawBorder = b

@@ -6,7 +6,6 @@ assert require "opts"
 
 -- Utils
 export Utils = assert require 'utils'
-export Gtimer = Timer!
 MManager = MeowC.core.Manager
 
 assert require 'src.Objects.Area'
@@ -23,9 +22,6 @@ with love
     Graphics.setLineStyle 'rough'
 
     export Fonts = {
-      Basteleur: 'assets/fonts/basteleur/fonts/ttf/Basteleur-Bold.ttf'
-      OuroborosR: 'assets/fonts/ouroboros-master/fonts/Ouroboros-Regular.otf'
-      TricksterM: 'assets/fonts/Trickster-master/fonts/Trickster-Reg.ttf'
       FTitlesHand: 'assets/fonts/FoundationTitlesHand/FoundationTitlesHand-v0.85.ttf'
       Pixel: 'assets/fonts/datcub-font/Datcub-eZO2g.ttf'
     }

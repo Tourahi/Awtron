@@ -1,4 +1,6 @@
 Graphics = love.graphics
+Content = assert require 'src/Controls/Content'
+Menu = assert require "src/GUI/Menu"
 
 export class Awtron extends GameObject
   new: (area, x, y, _opts = {}) =>
@@ -13,12 +15,12 @@ export class Awtron extends GameObject
     @ox, @oy = @w/2, @h/2
     @v = 0
     @a = 100
+    @dir = -1
 
     @move = true
 
     @maxV = 100
 
-    @dir = 1
 
     @spriteSheetMovement = Graphics.newImage 'assets/AwtronV2.png'
     --@spriteSheetEmo = Graphics.newImage 'assets/AwtronEmo.png'
@@ -43,6 +45,7 @@ export class Awtron extends GameObject
   update: (dt) =>
     super dt
     ww = G_baseW/opts.scale
+    Menu.playerPopUp\setPos @x - 5 , @y - 43
 
     @v = math.min @v + @a*dt, @maxV
 

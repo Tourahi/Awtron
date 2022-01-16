@@ -9,6 +9,8 @@ Content = Control\extend "Content",{
   transparency: nil
   stroke: nil
   strokeColor: nil
+  ox: 0
+  oy: 0
 }
 
 with Content
@@ -31,7 +33,7 @@ with Content
     box = self\getBoundingBox!
     r, g, b, a = Graphics.getColor!
     Graphics.setColor @backgroundColor[1], @backgroundColor[2], @backgroundColor[3], @transparency
-    Graphics.rectangle "fill", box\getX!, box\getY!, box\getWidth!, box\getHeight!
+    Graphics.rectangle "fill", box\getX!, box\getY!, box\getWidth!, box\getHeight!, 1, 1, @ox, @oy
 
     -- Border
     oldLW = Graphics.getLineWidth!
@@ -39,7 +41,7 @@ with Content
     Graphics.setLineStyle "rough"
 
     Graphics.setColor @strokeColor[1], @strokeColor[2], @strokeColor[3], @strokeColor[4]
-    Graphics.rectangle "line", box.x, box.y, box\getWidth!, box\getHeight!
+    Graphics.rectangle "line", box.x, box.y, box\getWidth!, box\getHeight!, 1, 1, @ox, @oy
     Graphics.setLineWidth oldLW
 
 
@@ -59,6 +61,9 @@ with Content
 
   .setStrokeColor = (sc) =>
     @strokeColor = sc
+
+  .setOffset = (ox, oy) =>
+    @ox, @oy = ox, oy
 
 
 

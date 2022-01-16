@@ -24,6 +24,7 @@ with Menu
     -- Dashboard
     @exit = Button\new!
     @settings = Button\new!
+    @playerPopUp = Button\new!
     @console = Content\new!
     @battryC = Content\new!
     @heatC = Content\new!
@@ -44,6 +45,19 @@ with Menu
     @Text = SelectOpt\new Fonts.Pixel,
       "Press F to open the Coffer.", Colors.mediumseagreen, 15
 
+
+
+    with @playerPopUp
+      \setSize 16, 16
+      \setPos 0, 0
+      \setEnabled false
+      \setFont 'assets/fonts/falling-sky-font/FallingSkyCondensed-9qm2.otf'
+      \setFontColor Colors.mediumseagreen
+      \setDrawBorder true
+      \setFontSize 14
+      \setBorder 1.5
+      \flashOn!
+      \setText "E"
 
 
 

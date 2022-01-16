@@ -16,8 +16,9 @@ export class Coffer extends InteractiveObject
 
     if @collider\enter 'Awtron'
       Log.debug "Awtron entered the coffer collider"
-      Menu.console\addChild Menu.Text
+      Menu.root\addChildCore Menu.playerPopUp
 
     if @collider\exit 'Awtron'
       Log.debug "Awtron exited the coffer collider"
-      Menu.console\removeChild Menu.Text
+      Menu.root\removeChildCore Menu.playerPopUp
+

@@ -1,13 +1,13 @@
 import remove from table
 import insert from table
-Manager = MeowC.core.Manager
+MManager = MeowC.core.Manager
 
 export class Area
   new: (room, GUI) =>
     @room = room
     @GUI = GUI
 
-    root = Manager\getInstanceRoot!
+    root = MManager\getInstanceRoot!
     if @GUI
       for k,widget in pairs @GUI
         root\addChildCore widget
