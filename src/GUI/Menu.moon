@@ -13,6 +13,7 @@ Menu = {}
 
 with Menu
   .init = =>
+    Graphics = love.graphics
     Log.debug "Menu initialized."
 
     @padding = 16 + 10 -- 16 size of the wall tile
@@ -24,12 +25,26 @@ with Menu
     @exit = Button\new!
     @settings = Button\new!
     @console = Content\new!
+    @battryC = Content\new!
+    @heatC = Content\new!
+    @procC = Content\new!
+    @interC = Content\new!
 
-    @Coin = SelectOpt\new Fonts.Basteleur,
-      "Coin : ", Colors.gray, 10
+    --logos
+    lBattry = ImageCanvas\new Graphics.newImage("assets/battery.png")
+    lBattry\setPos 1, 0.5
+    lcpu = ImageCanvas\new Graphics.newImage("assets/cpu.png")
+    lcpu\setPos 1, 1
+    lheat = ImageCanvas\new Graphics.newImage("assets/heat.png")
+    lheat\setPos 0, 1
+    linter = ImageCanvas\new Graphics.newImage("assets/internet.png")
+    linter\setPos 1, 0
 
-    @Power = SelectOpt\new Fonts.Basteleur,
-      "Power : ", Colors.springgreen, 10
+
+    @Text = SelectOpt\new Fonts.Pixel,
+      "Press F to open the Coffer.", Colors.mediumseagreen, 15
+
+
 
 
     with @exit
@@ -55,26 +70,58 @@ with Menu
       \setEnabled false
       \setPos 200, @padding
       \setStroke 2
+
+    with @battryC
+      \setSize 80.5, 22.5
+      \setEnabled false
+      \setPos 26, @padding
+      \setStroke 2
+      \addChild lBattry
+
+    with @heatC
+      \setSize 80.5, 22.5
+      \setEnabled false
+      \setPos 26, @padding + 22.5
+      \setStroke 2
+      \addChild lheat
+
+    with @procC
+      \setSize 80.5, 22.5
+      \setEnabled false
+      \setPos 26 + 86.5, @padding + 22.5
+      \setStroke 2
+      \addChild lcpu
+
+    with @interC
+      \setSize 80.5, 22.5
+      \setEnabled false
+      \setPos 26 + 86.5, @padding
+      \setStroke 2
+      \addChild linter
+
+
+
       --\setDrawBorder true
       --\setText "Coin : 500"
       --\setDisableColor Colors.black
 
 
-    with @Coin
+    with @Text
       \setPos 5, 5
       \setDrawBg false
 
-    with @Power
-      \setPos 26, @padding
-      \setDrawBg false
 
     --@console\addChild @Coin, 2
+    --@battryC\addChild @Power
 
 
     @root\addChildCore @exit
     @root\addChildCore @settings
     @root\addChildCore @console
-    @root\addChildCore @Power
+    @root\addChildCore @battryC
+    @root\addChildCore @heatC
+    @root\addChildCore @procC
+    @root\addChildCore @interC
 
 
 

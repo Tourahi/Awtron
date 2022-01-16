@@ -2,6 +2,7 @@ Control = MeowC.core.Control
 import Colors from MeowC.core.Theme
 Graphics = love.graphics
 import Flux from MeowC.core
+Mouse = love.mouse
 
 -- Extend from the Control class
 ImageCanvas = Control\extend "ImageCanvas",{

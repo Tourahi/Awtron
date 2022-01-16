@@ -27,6 +27,7 @@ with love
       OuroborosR: 'assets/fonts/ouroboros-master/fonts/Ouroboros-Regular.otf'
       TricksterM: 'assets/fonts/Trickster-master/fonts/Trickster-Reg.ttf'
       FTitlesHand: 'assets/fonts/FoundationTitlesHand/FoundationTitlesHand-v0.85.ttf'
+      Pixel: 'assets/fonts/datcub-font/Datcub-eZO2g.ttf'
     }
 
     export input = Input!

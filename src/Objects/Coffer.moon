@@ -1,3 +1,4 @@
+Menu = assert require "src/GUI/Menu"
 
 export class Coffer extends InteractiveObject
   new: (area, x, y, _opts = {}) =>
@@ -15,6 +16,8 @@ export class Coffer extends InteractiveObject
 
     if @collider\enter 'Awtron'
       Log.debug "Awtron entered the coffer collider"
+      Menu.console\addChild Menu.Text
 
     if @collider\exit 'Awtron'
       Log.debug "Awtron exited the coffer collider"
+      Menu.console\removeChild Menu.Text
