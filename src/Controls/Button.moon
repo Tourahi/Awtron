@@ -172,7 +172,7 @@ with Button
     @theme.downColor = color
 
   .setHoverColor = (color) =>
-    @theme.setHoverColor = color
+    @theme.hoverColor = color
 
   .setDisableColor = (color) =>
     @theme.disableColor = color

@@ -30,7 +30,7 @@ export class Awtron extends GameObject
 
     @animations = {
       idle: Animation.newAnimation(self.gridMv('1-1', 1), 0.2)
-      move: Animation.newAnimation(self.gridMv('1-2', 1), 0.1)
+      move: Animation.newAnimation(self.gridMv('1-3', 1), 0.1)
       --emo: Animation.newAnimation(self.gridEmo('1-3', 1), 0.3)
     }
 

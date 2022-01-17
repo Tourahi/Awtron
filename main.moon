@@ -46,6 +46,7 @@ with love
       'f2': 'f2'
       'f4': 'f4'
       'e': 'e'
+      'u': 'u'
       'l': 'l'
       's': 's'
       'return': 'enter'

@@ -1,6 +1,6 @@
 Menu = assert require "src/GUI/Menu"
 
-export class Coffer extends InteractiveObject
+export class Charger extends InteractiveObject
   new: (area, x, y, _opts = {}) =>
     super area, x, y, _opts
 
@@ -14,7 +14,7 @@ export class Coffer extends InteractiveObject
     super dt
 
     @collider\setPreSolve (ca, c) =>
-      Menu.playerPopUp\setText "E"
+      Menu.playerPopUp\setText "C"
       c\setEnabled false
 
       if input\pressed 'e'

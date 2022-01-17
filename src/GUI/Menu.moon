@@ -22,6 +22,7 @@ with Menu
 
     -- flags
     @cofferOn = false
+    @computerOn = false
 
     -- Dashboard
     @exit = Button\new!
@@ -132,6 +133,7 @@ with Menu
     --@battryC\addChild @Power
 
     @initCoffer!
+    @initGatewayComputer!
 
 
     @root\addChildCore @exit
@@ -165,6 +167,68 @@ with Menu
         \setStroke 1
         \setEnabled true
       _i += 1
+
+  .initGatewayComputer = =>
+    Graphics = love.graphics
+
+    @coinC = Content\new!
+    @updateC = Button\new!
+    @networksC = Button\new!
+    @minebBtn = Button\new!
+    lcoin = ImageCanvas\new Graphics.newImage("assets/coin.png")
+    lcoin\setPos 2, 3
+
+    with @minebBtn
+      \setSize 20, 21
+      \setPos 60, 1
+      \setEnabled true
+      \setFont Fonts.Pixel
+      \setUpColor Colors.black
+      \setHoverColor Colors.crimson
+      \onHover =>
+        @setFontColor Colors.black
+      \onLeave =>
+        @setFontColor Colors.white
+      \setDownColor Colors.cornsilk
+      \setBorderColor Colors.yellow
+      \setFontSize 8
+      \setText "Mine"
+
+    with @updateC
+      \setSize 60.5, 22.5
+      \setPos 90, 10
+      \setFont Fonts.Pixel
+      \setBorderColor Colors.black
+      \setText "Update"
+
+    with @networksC
+      \setSize 70.5, 22.5
+      \setPos 155, 10
+      \setFont Fonts.Pixel
+      \setBorderColor Colors.black
+      \setText "Network"
+
+    with @coinC
+      \setSize 80.5, 22.5
+      \setEnabled false
+      \setStrokeColor Colors.yellow
+      \setPos 5, 10
+      \setStroke 1
+      \addChild @minebBtn
+      \addChild lcoin
+
+
+  .showGatewayComputer = =>
+    @computerOn = true
+    @console\addChild @coinC
+    @console\addChild @updateC
+    @console\addChild @networksC
+
+  .hideGatewayComputer = =>
+    @computerOn = false
+    @console\removeChild @coinC
+    @console\removeChild @updateC
+    @console\removeChild @networksC
 
   .showCoffer = =>
     @cofferOn = true
