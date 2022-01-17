@@ -13,7 +13,7 @@ export class Stage
     -- Colli classes
     with @area.world
       \addCollisionClass 'Awtron'
-      \addCollisionClass 'Coffer', {ignores: {'Awtron'}}
+      \addCollisionClass 'Coffer'
       --\addCollisionClass 'Projectile', {ignores: {'Projectile', 'Player', 'Bebop'}}
       --\addCollisionClass 'Collectable', {ignores: {'Collectable', 'Projectile', 'Bebop'}}
 

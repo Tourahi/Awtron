@@ -45,6 +45,7 @@ with love
       'down': 'down'
       'f2': 'f2'
       'f4': 'f4'
+      'e': 'e'
       'l': 'l'
       's': 's'
       'return': 'enter'
@@ -60,7 +61,9 @@ with love
       G_currentRoom\update dt * opts.slow
 
   .draw = ->
+    Graphics = love.graphics
     if G_currentRoom then G_currentRoom\draw!
+    Graphics.print("FPS: "..tostring(love.timer.getFPS( )), 50, 250)
 
   .mousepressed = (x, y, button) ->
     G_currentRoom\mousepressed x, y, button

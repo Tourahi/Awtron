@@ -44,8 +44,8 @@ export class Awtron extends GameObject
 
   update: (dt) =>
     super dt
-    ww = G_baseW/opts.scale
     Menu.playerPopUp\setPos @x - 5 , @y - 43
+    ww = G_baseW/opts.scale
 
     @v = math.min @v + @a*dt, @maxV
 

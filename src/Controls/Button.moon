@@ -23,6 +23,7 @@ with Button
   .init = =>
     -- call the parent constructor
     @super.init(self)
+    @visible = true
     @theme = table.copy(Theme\getInstance!\getProperty "button")
     @width = @theme.width
     @height = @theme.height
@@ -48,6 +49,7 @@ with Button
     @on "UI_MOUSE_UP", @onMouseUp, self
 
   .onDraw = =>
+    if @visible == false then return
     box = @getBoundingBox!
     r, g, b, a = Graphics.getColor!
 
@@ -201,6 +203,9 @@ with Button
 
   .setDrawBorder = (b) =>
     @drawBorder = b
+
+  .setVisible = (v) =>
+    @visible = v
 
   .setFontSize = (fs) =>
     if @theme.font

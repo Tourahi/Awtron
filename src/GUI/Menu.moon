@@ -20,6 +20,8 @@ with Menu
 
     @root = MManager\getInstanceRoot!
 
+    -- flags
+    @cofferOn = false
 
     -- Dashboard
     @exit = Button\new!
@@ -57,6 +59,7 @@ with Menu
       \setFontSize 14
       \setBorder 1.5
       \flashOn!
+      \setVisible false
       \setText "E"
 
 
@@ -128,6 +131,8 @@ with Menu
     --@console\addChild @Coin, 2
     --@battryC\addChild @Power
 
+    @initCoffer!
+
 
     @root\addChildCore @exit
     @root\addChildCore @settings
@@ -136,6 +141,41 @@ with Menu
     @root\addChildCore @heatC
     @root\addChildCore @procC
     @root\addChildCore @interC
+    @root\addChildCore @playerPopUp
+
+
+  .initCoffer = =>
+    @cofferSlots = {}
+
+    for i = 22, 1, -1
+      @cofferSlots[i] = Button\new!
+
+    oy = 2.5
+    x = 5
+    _i = 1
+
+    for i, v in ipairs @cofferSlots
+      if _i == 12
+        oy += 20
+        _i = 1
+      with @cofferSlots[i]
+        \setSize 20, 20
+        \setEnabled false
+        \setPos x + (_i-1)*20, oy
+        \setStroke 1
+        \setEnabled true
+      _i += 1
+
+  .showCoffer = =>
+    @cofferOn = true
+    for i, v in ipairs @cofferSlots
+      @console\addChild @cofferSlots[i]
+
+  .hideCoffer = =>
+    @cofferOn = false
+    for i, v in ipairs @cofferSlots
+      @console\removeChild @cofferSlots[i]
+
 
 
 

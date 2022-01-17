@@ -58,6 +58,7 @@ local Control = class("Control", {
 
 Control.init = function(self, boxType)
     boxType = boxType or 'Box'
+    self.childrenNum = 0;
     self.events = Event()
     if (boxType == 'Box') then
       self.boundingBox = Box()
@@ -70,7 +71,7 @@ Control.update = function(self, dt)
   self:conform();
   if self.timer then self.timer:tick(self, dt) end
   self.events:dispatch(G_E("UI_UPDATE") ,dt);
-  for _,v in ipairs(self.children) do
+  for _,v in pairs(self.children) do
     v:update(dt);
   end
 end
@@ -79,7 +80,7 @@ Control.draw = function(self)
   if not self.visible then return end
   --self:clipBegin();
   self.events:dispatch(G_E("UI_DRAW"));
-  for _,v in ipairs(self.children) do
+  for _,v in pairs(self.children) do
     v:draw();
   end
   --self:clipEnd();
@@ -156,7 +157,7 @@ Control.conform = function(self)
     box.r = self.radius;
   end
 
-  for _, v in ipairs(self.children) do
+  for _, v in pairs(self.children) do
     v:needConforming();
     v:conform();
   end
@@ -289,8 +290,8 @@ end
 Control.hitTest = function(self, x, y)
   if not self:getBoundingBox():contains(x, y) then return nil end
   if self.childrenEnabled then
-    for i,v in ipairs(self.children) do
-      local control = self.children[#self.children - i + 1];
+    for id,_ in pairs(self.children) do
+      local control = self.children[id];
       local hitControl = control:hitTest(x, y);
       if hitControl then
         return hitControl;
@@ -317,8 +318,20 @@ Control.getDepth = function(self)
   return self.depth;
 end
 
+UID = function()
+  f = function(x)
+    r = love.math.random(16) - 1
+    r = (x == "x") and (r + 1) or (r % 4) + 9
+    return ("0123456789abcdef"):sub(r, r)
+  end
+  return (("xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"):gsub("[xy]", f))
+end
+
 Control.addChild = function(self, child, depth)
-  table.insert(self.children, child);
+  if self.children[child.id] then return end
+  child.id = UID();
+  self.children[child.id] = child;
+  self.childrenNum = self.childrenNum + 1;
   child:setParent(self);
   if depth then
     child:setDepth(depth);
@@ -327,13 +340,8 @@ Control.addChild = function(self, child, depth)
 end
 
 Control.removeChild = function(self ,child)
-  for i,v in ipairs(self.children) do
-    if v == child then
-      table.remove(self.children, i);
-      child.events:dispatch(G_E("UI_ON_REMOVE"));
-      break;
-    end
-  end
+  self.children[child.id] = nil;
+  self.childrenNum = self.childrenNum - 1;
 end
 
 Control.dropChildren = function(self)
@@ -341,13 +349,13 @@ Control.dropChildren = function(self)
 end
 
 Control.disableChildren = function(self)
-  for i,v in ipairs(self.children) do
+  for i,v in pairs(self.children) do
     v:setEnabled(false);
   end
 end
 
 Control.enableChildren = function(self)
-  for i,v in ipairs(self.children) do
+  for i,v in pairs(self.children) do
     v:setEnabled(true);
   end
 end
