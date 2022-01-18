@@ -1,0 +1,5 @@
+
+
+return {
+  coin: 0
+}

@@ -64,6 +64,7 @@ with SelectOpt
         @textDrawable\set text
 
   .onDraw = =>
+    @textDrawable = Graphics.newText @font, @text
     box = @getBoundingBox!
     r, g, b, a = Graphics.getColor!
     Graphics.setColor @color[1], @color[2], @color[3], @alpha
@@ -99,6 +100,9 @@ with SelectOpt
 
   .onAfterClick = (cb) =>
     @aClick = cb
+
+  .setText = (t) =>
+    @text = t
 
   .onMouseEnter = =>
     if @Hover

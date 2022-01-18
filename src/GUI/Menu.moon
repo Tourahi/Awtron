@@ -6,7 +6,7 @@ Button = assert require 'src/Controls/Button'
 Content = assert require 'src/Controls/Content'
 ImageCanvas = assert require 'src/Controls/ImageCanvas'
 ProgressBar = assert require 'src/Controls/ProgressBar'
-
+Inv = assert require 'src/Inventory'
 Colors = MeowC.core.Colors
 Menu = {}
 
@@ -44,9 +44,39 @@ with Menu
     linter = ImageCanvas\new Graphics.newImage("assets/internet.png")
     linter\setPos 1, 0
 
+    -- Specs controls
+    @heatBar = ProgressBar!
+    with @heatBar
+      \setSize 40,10
+      \setPos 30, 6
+      \setMaxValue 100
+      \setDangerType "mt"
+      \setDangerZone 70
+      \setDangerColor Colors.red
+      \setColor Colors.green
+
+    @batteryBar = ProgressBar!
+    with @batteryBar
+      \setSize 40,10
+      \setPos 30, 6
+      \setMaxValue 100
+      \setDangerType "lt"
+      \setDangerZone 15
+      \setDangerColor Colors.red
+      \setColor Colors.green
 
     @Text = SelectOpt\new Fonts.Pixel,
       "Press F to open the Coffer.", Colors.mediumseagreen, 15
+
+    @Cpu = SelectOpt\new Fonts.Pixel,
+      "0%", Colors.white, 15
+    @Cpu\setPos 45, 1.5
+    @Cpu\setDrawBg false
+
+    @Net = SelectOpt\new Fonts.Pixel,
+      "0%", Colors.white, 15
+    @Net\setPos 45, 1.5
+    @Net\setDrawBg false
 
 
 
@@ -95,6 +125,7 @@ with Menu
       \setPos 26, @padding
       \setStroke 2
       \addChild lBattry
+      \addChild @batteryBar
 
     with @heatC
       \setSize 80.5, 22.5
@@ -102,6 +133,7 @@ with Menu
       \setPos 26, @padding + 22.5
       \setStroke 2
       \addChild lheat
+      \addChild @heatBar
 
     with @procC
       \setSize 80.5, 22.5
@@ -109,6 +141,7 @@ with Menu
       \setPos 26 + 86.5, @padding + 22.5
       \setStroke 2
       \addChild lcpu
+      \addChild @Cpu
 
     with @interC
       \setSize 80.5, 22.5
@@ -116,6 +149,7 @@ with Menu
       \setPos 26 + 86.5, @padding
       \setStroke 2
       \addChild linter
+      \addChild @Net
 
 
 
@@ -177,6 +211,10 @@ with Menu
     @minebBtn = Button\new!
     lcoin = ImageCanvas\new Graphics.newImage("assets/coin.png")
     lcoin\setPos 2, 3
+    @coinV = SelectOpt\new Fonts.Pixel,
+      Inv.coin, Colors.white, 15
+    @coinV\setPos 20, 1.1
+    @coinV\setDrawBg false
 
     with @minebBtn
       \setSize 20, 21
@@ -216,6 +254,7 @@ with Menu
       \setStroke 1
       \addChild @minebBtn
       \addChild lcoin
+      \addChild @coinV
 
 
   .showGatewayComputer = =>

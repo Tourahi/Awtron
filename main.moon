@@ -12,7 +12,10 @@ assert require 'src.Objects.Area'
 assert require 'src.GameObject'
 assert require 'src.InteractiveObject'
 
-
+love.math.clamp = (val, min, max) ->
+  assert val and min and max, "Please provide all the parameters. [love.math.clamp]"
+  if min > max then min, max = max, min
+  math.max min, math.min(max, val)
 
 with love
   .load = ->

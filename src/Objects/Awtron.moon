@@ -21,6 +21,11 @@ export class Awtron extends GameObject
 
     @maxV = 100
 
+    @battery = 90 -- %
+    @heat = 5 -- c
+    @net = 50 -- %
+    @cpu = 20 -- %
+
 
     @spriteSheetMovement = Graphics.newImage 'assets/AwtronV2.png'
     --@spriteSheetEmo = Graphics.newImage 'assets/AwtronEmo.png'
@@ -45,6 +50,11 @@ export class Awtron extends GameObject
   update: (dt) =>
     super dt
     Menu.playerPopUp\setPos @x - 5 , @y - 43
+    Menu.heatBar\setValue @heat
+    Menu.batteryBar\setValue @battery
+    Menu.Cpu\setText @cpu.."%"
+    Menu.Net\setText @net.."%"
+
     ww = G_baseW/opts.scale
 
     @v = math.min @v + @a*dt, @maxV

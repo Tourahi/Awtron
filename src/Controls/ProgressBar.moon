@@ -1,5 +1,7 @@
 Control = MeowC.core.Control
 Theme = MeowC.core.Theme
+Colors = MeowC.core.Colors
+Graphics = love.graphics
 
 ProgressBar = Control\extend "ProgressBar",{
   value: 0
@@ -18,8 +20,9 @@ with ProgressBar
   .init = =>
     @super.init(self)
     @color = Colors.blue
+    @dangerColor = Colors.red
     @background = Colors.white
-    
+
     @setEnabled true
     @setClip true
 
@@ -41,8 +44,13 @@ with ProgressBar
       barW = 0
     elseif barW > box\getWidth!
       barW = box\getWidth!
-    
-    Graphics.setColor @color
+
+    if @value <= @dangerAt and (@dangerType == "lt")
+      Graphics.setColor @dangerColor
+    elseif @value >= @dangerAt and (@dangerType == "mt")
+      Graphics.setColor @dangerColor
+    else
+      Graphics.setColor @color
     Graphics.rectangle "fill", box\getX!, box\getY!, barW, box\getHeight!, 2, 2
 
 
@@ -51,7 +59,10 @@ with ProgressBar
 
   .setColor = (c) =>
     @color = c
-   
+
+  .setDangerColor = (c) =>
+    @dangerColor = c
+
   .setBackground = (b) =>
     @background = b
 
@@ -64,6 +75,9 @@ with ProgressBar
 
   .setDangerZone = (at) =>
     @dangerAt = at
+
+  .setDangerType = (dt) =>
+    @dangerType = dt
 
   .isEmpty = =>
     @value == 0
