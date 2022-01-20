@@ -28,7 +28,7 @@ export class Stage
 
     @area\attachMapObjects!
 
-    Menu\init!
+    Menu\init @player
 
     --Log.debug @player.id
 

@@ -71,7 +71,7 @@ Control.update = function(self, dt)
   self:conform();
   if self.timer then self.timer:tick(self, dt) end
   self.events:dispatch(G_E("UI_UPDATE") ,dt);
-  for _,v in pairs(self.children) do
+  for _,v in ipairs(self.children) do
     v:update(dt);
   end
 end
@@ -80,7 +80,7 @@ Control.draw = function(self)
   if not self.visible then return end
   --self:clipBegin();
   self.events:dispatch(G_E("UI_DRAW"));
-  for _,v in pairs(self.children) do
+  for _,v in ipairs(self.children) do
     v:draw();
   end
   --self:clipEnd();
@@ -157,7 +157,7 @@ Control.conform = function(self)
     box.r = self.radius;
   end
 
-  for _, v in pairs(self.children) do
+  for _, v in ipairs(self.children) do
     v:needConforming();
     v:conform();
   end
@@ -290,7 +290,7 @@ end
 Control.hitTest = function(self, x, y)
   if not self:getBoundingBox():contains(x, y) then return nil end
   if self.childrenEnabled then
-    for id,_ in pairs(self.children) do
+    for id,_ in ipairs(self.children) do
       local control = self.children[id];
       local hitControl = control:hitTest(x, y);
       if hitControl then
@@ -328,9 +328,14 @@ UID = function()
 end
 
 Control.addChild = function(self, child, depth)
-  if self.children[child.id] then return end
+  for i, v in ipairs(self.children) do
+    if v.id == child.id then
+      print("true")
+      return
+    end
+  end
   child.id = UID();
-  self.children[child.id] = child;
+  self.children[#self.children + 1] = child;
   self.childrenNum = self.childrenNum + 1;
   child:setParent(self);
   if depth then
@@ -340,8 +345,13 @@ Control.addChild = function(self, child, depth)
 end
 
 Control.removeChild = function(self ,child)
-  self.children[child.id] = nil;
-  self.childrenNum = self.childrenNum - 1;
+  for i,v in ipairs(self.children) do
+    if v == child then
+      table.remove(self.children, i);
+      child.events:dispatch(G_E("UI_ON_REMOVE"));
+      break;
+    end
+  end
 end
 
 Control.dropChildren = function(self)
@@ -349,13 +359,13 @@ Control.dropChildren = function(self)
 end
 
 Control.disableChildren = function(self)
-  for i,v in pairs(self.children) do
+  for i,v in ipairs(self.children) do
     v:setEnabled(false);
   end
 end
 
 Control.enableChildren = function(self)
-  for i,v in pairs(self.children) do
+  for i,v in ipairs(self.children) do
     v:setEnabled(true);
   end
 end

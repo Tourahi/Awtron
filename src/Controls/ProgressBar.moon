@@ -13,6 +13,7 @@ ProgressBar = Control\extend "ProgressBar",{
   dangerZone: false
   dangerAt: 0
   dangerColor: nil
+  bgAlpha: 1
 }
 
 
@@ -33,7 +34,7 @@ with ProgressBar
   .onDraw = =>
     box = @getBoundingBox!
     r, g, b, a = Graphics.getColor!
-
+    @background[4] = @bgAlpha
     Graphics.setColor @background
     Graphics.rectangle "fill", box\getX!, box\getY!, box\getWidth!, box\getHeight!, 2, 2
 
@@ -78,6 +79,9 @@ with ProgressBar
 
   .setDangerType = (dt) =>
     @dangerType = dt
+
+  .setBgAlpha = (a) =>
+    @bgAlpha = a
 
   .isEmpty = =>
     @value == 0

@@ -22,7 +22,7 @@ Button = Control\extend "Button",{
 with Button
   .init = =>
     -- call the parent constructor
-    @super.init(self)
+    Control.init self
     @visible = true
     @theme = table.copy(Theme\getInstance!\getProperty "button")
     @width = @theme.width

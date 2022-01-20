@@ -25,8 +25,8 @@ with love
     Graphics.setLineStyle 'rough'
 
     export Fonts = {
-      FTitlesHand: 'assets/fonts/FoundationTitlesHand/FoundationTitlesHand-v0.85.ttf'
       Pixel: 'assets/fonts/datcub-font/Datcub-eZO2g.ttf'
+      BPixel: 'assets/fonts/datcub-font/DatcubBold-4BMy6.ttf'
     }
 
     export input = Input!

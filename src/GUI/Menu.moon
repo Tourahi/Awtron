@@ -12,7 +12,7 @@ Menu = {}
 
 
 with Menu
-  .init = =>
+  .init = (player) =>
     Graphics = love.graphics
     Log.debug "Menu initialized."
 
@@ -20,6 +20,7 @@ with Menu
 
     @root = MManager\getInstanceRoot!
 
+    @player = player
     -- flags
     @cofferOn = false
     @computerOn = false
@@ -152,19 +153,10 @@ with Menu
       \addChild @Net
 
 
-
-      --\setDrawBorder true
-      --\setText "Coin : 500"
-      --\setDisableColor Colors.black
-
-
     with @Text
       \setPos 5, 5
       \setDrawBg false
 
-
-    --@console\addChild @Coin, 2
-    --@battryC\addChild @Power
 
     @initCoffer!
     @initGatewayComputer!
@@ -211,10 +203,12 @@ with Menu
     @minebBtn = Button\new!
     lcoin = ImageCanvas\new Graphics.newImage("assets/coin.png")
     lcoin\setPos 2, 3
-    @coinV = SelectOpt\new Fonts.Pixel,
-      Inv.coin, Colors.white, 15
+    @coinV = SelectOpt\new Fonts.BPixel,
+      Inv.coin, Colors.darkorange, 15
     @coinV\setPos 20, 1.1
     @coinV\setDrawBg false
+
+    player = @player
 
     with @minebBtn
       \setSize 20, 21
@@ -223,6 +217,7 @@ with Menu
       \setFont Fonts.Pixel
       \setUpColor Colors.black
       \setHoverColor Colors.crimson
+      \setDisableColor Colors.crimson
       \onHover =>
         @setFontColor Colors.black
       \onLeave =>
@@ -231,6 +226,10 @@ with Menu
       \setBorderColor Colors.yellow
       \setFontSize 8
       \setText "Mine"
+      \onClick =>
+        player\freez true
+        player\mine!
+
 
     with @updateC
       \setSize 60.5, 22.5
@@ -246,22 +245,46 @@ with Menu
       \setBorderColor Colors.black
       \setText "Network"
 
+    @mineBar = ProgressBar!
+    with @mineBar
+      \setSize 60.5,22.5
+      \setPos 0, 0
+      \setDepth -1
+      \setValue 1
+      \setMaxValue 100
+      \setBgAlpha 0
+      \setColor Colors.gold
+      \setEnabled false
+
     with @coinC
       \setSize 80.5, 22.5
       \setEnabled false
       \setStrokeColor Colors.yellow
       \setPos 5, 10
       \setStroke 1
-      \addChild @minebBtn
       \addChild lcoin
       \addChild @coinV
+      \addChild @minebBtn
+      \addChild @mineBar
+
+    @coinC\sortChildren!
+
+
+    for _, c in pairs @coinC.children
+      print 'l :',c
+
+
+
 
 
   .showGatewayComputer = =>
     @computerOn = true
+    @coinC\sortChildren!
     @console\addChild @coinC
     @console\addChild @updateC
     @console\addChild @networksC
+
+
 
   .hideGatewayComputer = =>
     @computerOn = false
