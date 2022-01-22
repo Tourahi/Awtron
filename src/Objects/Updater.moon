@@ -30,8 +30,12 @@ export class Updater extends InteractiveObject
       if input\pressed('u') and (Menu.computerOn == false)
         Menu.playerPopUp\setVisible false
         Menu\showGatewayComputer!
+      elseif input\pressed('s') and (Menu.computerOn == true)
+        Menu.playerPopUp\setVisible false
+        @area.room.player\stopMinning!
 
     if @collider\exit 'Awtron'
       Menu.playerPopUp\setVisible false
+      @area.room.player\stopMinning!
       if Menu.computerOn
         Menu\hideGatewayComputer!

@@ -11,6 +11,7 @@ Content = Control\extend "Content",{
   strokeColor: nil
   ox: 0
   oy: 0
+  visible: true
 }
 
 with Content
@@ -29,6 +30,7 @@ with Content
     @on "UI_WHELL_MOVE", @onWheelMove, self
 
   .onDraw = =>
+    if @visible == false then return
     Graphics.push!
     box = self\getBoundingBox!
     r, g, b, a = Graphics.getColor!
@@ -61,6 +63,9 @@ with Content
 
   .setStrokeColor = (sc) =>
     @strokeColor = sc
+
+  .setVisible = (v) =>
+    @visible = v
 
   .setOffset = (ox, oy) =>
     @ox, @oy = ox, oy

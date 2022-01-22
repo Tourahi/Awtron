@@ -7,6 +7,7 @@ Content = assert require 'src/Controls/Content'
 ImageCanvas = assert require 'src/Controls/ImageCanvas'
 ProgressBar = assert require 'src/Controls/ProgressBar'
 Inv = assert require 'src/Inventory'
+Items = assert require 'src/items'
 Colors = MeowC.core.Colors
 Menu = {}
 
@@ -160,6 +161,7 @@ with Menu
 
     @initCoffer!
     @initGatewayComputer!
+    @initMiniScreen!
 
 
     @root\addChildCore @exit
@@ -170,6 +172,7 @@ with Menu
     @root\addChildCore @procC
     @root\addChildCore @interC
     @root\addChildCore @playerPopUp
+
 
 
   .initCoffer = =>
@@ -186,6 +189,7 @@ with Menu
       if _i == 12
         oy += 20
         _i = 1
+
       with @cofferSlots[i]
         \setSize 20, 20
         \setEnabled false
@@ -194,13 +198,89 @@ with Menu
         \setEnabled true
       _i += 1
 
+
+  .initMiniScreen = =>
+    Graphics = love.graphics
+    @MiniScreen = Content\new!
+    @priceScreen = Content\new!
+    @buyBtn = Button\new!
+    @price = SelectOpt\new Fonts.BPixel,
+      0, Colors.darkorange, 15
+
+    @price\setDrawBg false
+    @price\setPos 5, 0
+    @price\setEnabled false
+
+    @itemSlots = {}
+    for i = #Items, 1, -1
+      @itemSlots[i] = Content\new!
+
+    oy = 8
+    x = 10
+    _i = 1
+
+    for i, v in ipairs @itemSlots
+      if _i == 6 --math.floor(#Items/2) + 1
+        oy += 20
+        _i = 1
+
+      logo = {}
+      print i
+      with Items[i].icon = ImageCanvas\new Graphics.newImage(Items[i].icon)
+        \setPos 1, 0.5
+      Items[i].icon.p = Items[i].p
+      Items[i].icon\onClick =>
+        print @p
+        Menu.price\setText @p
+
+      with @itemSlots[i]
+        \setSize 20, 20
+        \setEnabled false
+        \setPos x + (_i-1)*20, oy
+        \setStroke 1
+        \setEnabled true
+        \addChild Items[i].icon
+      _i += 1
+
+    for i, v in ipairs @itemSlots
+      @MiniScreen\addChild @itemSlots[i]
+
+    with @buyBtn
+      \setSize 50, 20
+      \setPos 161, 30
+      \setEnabled true
+      \setFont Fonts.BPixel
+      \setUpColor Colors.black
+      \setHoverColor Colors.green
+      \setDisableColor Colors.crimson
+      \setDownColor Colors.mediumseagreen
+      \setText "Buy"
+
+    with @priceScreen
+      \setSize 50, 20
+      \setPos 161, 6
+      \setStroke 1
+      \addChild @price
+
+    with @MiniScreen
+      \setSize 216, 54
+      \setPos 116, 100
+      \setBackgroundColor Colors.black
+      \setStroke 1
+      \setEnabled false
+      \setVisible true
+      \addChild @priceScreen
+      \addChild @buyBtn
+
+    @root\addChildCore @MiniScreen
+
   .initGatewayComputer = =>
     Graphics = love.graphics
 
     @coinC = Content\new!
     @updateC = Button\new!
-    @networksC = Button\new!
-    @minebBtn = Button\new!
+    @shop = Button\new!
+    @mineBtn = Button\new!
     lcoin = ImageCanvas\new Graphics.newImage("assets/coin.png")
     lcoin\setPos 2, 3
     @coinV = SelectOpt\new Fonts.BPixel,
@@ -210,7 +290,7 @@ with Menu
 
     player = @player
 
-    with @minebBtn
+    with @mineBtn
       \setSize 20, 21
       \setPos 60, 1
       \setEnabled true
@@ -227,8 +307,10 @@ with Menu
       \setFontSize 8
       \setText "Mine"
       \onClick =>
-        player\freez true
+        --player\freez true
         player\mine!
+        Menu.playerPopUp\setText "S"
+        Menu.playerPopUp\setVisible true
 
 
     with @updateC
@@ -238,12 +320,12 @@ with Menu
       \setBorderColor Colors.black
       \setText "Update"
 
-    with @networksC
+    with @shop
       \setSize 70.5, 22.5
       \setPos 155, 10
       \setFont Fonts.Pixel
       \setBorderColor Colors.black
-      \setText "Network"
+      \setText "Shop"
 
     @mineBar = ProgressBar!
     with @mineBar
@@ -264,16 +346,10 @@ with Menu
       \setStroke 1
       \addChild lcoin
       \addChild @coinV
-      \addChild @minebBtn
+      \addChild @mineBtn
       \addChild @mineBar
 
     @coinC\sortChildren!
-
-
-    for _, c in pairs @coinC.children
-      print 'l :',c
-
-
 
 
 
@@ -282,7 +358,7 @@ with Menu
     @coinC\sortChildren!
     @console\addChild @coinC
     @console\addChild @updateC
-    @console\addChild @networksC
+    @console\addChild @shop
 
 
 
@@ -290,7 +366,7 @@ with Menu
     @computerOn = false
     @console\removeChild @coinC
     @console\removeChild @updateC
-    @console\removeChild @networksC
+    @console\removeChild @shop
 
   .showCoffer = =>
     @cofferOn = true

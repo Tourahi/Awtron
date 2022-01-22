@@ -1,6 +1,7 @@
 Graphics = love.graphics
 Content = assert require 'src/Controls/Content'
 Menu = assert require 'src/GUI/Menu'
+Flux = MeowC.core.Flux
 
 export class Awtron extends GameObject
   new: (area, x, y, _opts = {}) =>
@@ -37,9 +38,10 @@ export class Awtron extends GameObject
 
     -- Accumulated Heat
     @accHeat = 5
+    @lastAccHeat = 0
 
     -- Cooling
-    @cooling = 5
+    @cooling = 50
 
     -- @Desc : Cpu speed is the ammount of coins you mine every 15s
     @cpuSpeed = 0.5 -- default
@@ -66,10 +68,10 @@ export class Awtron extends GameObject
 
 
     -- Timers
-    @timer\every 30, ->
+    @timer\every 'battery', 30, ->
       @battery -= @batteryR
       @battery = love.math.clamp @battery, 1, 100
-      @heat += (@accHeat - @cooling)
+      @heat += @accHeat
 
 
   update: (dt) =>
@@ -115,19 +117,46 @@ export class Awtron extends GameObject
     @freezed = f
 
   mine: =>
-    @minnigTimer = @timer\every 3,(c) ->
-        @inventory.coin += @cpuSpeed
+    if @fHeat
+      @fHeat\stop!
+      Flux\remove @fHeat
+      @fHeat = nil
 
-    Menu.mineBar.Ttimer = @timer\every 1, ->
-      Menu.mineBar\setValue(Menu.mineBar.value + (100 / 3))
+    @isMining = true
+    @freez true
+    @minnigTimer = @timer\every 'minnigTimer', 15,(c) ->
+      @inventory.coin += @cpuSpeed
+      if @accHeat < 100
+        @accHeat += 5
 
-    Menu.mineBar.TAtimer = @timer\every 3, ->
+    Menu.mineBar.Ttimer = @timer\every 'Ttimer', 1, ->
+      Menu.mineBar\setValue(Menu.mineBar.value + (100 / 15))
+
+    Menu.mineBar.TAtimer = @timer\every 'TAtimer', 15, ->
       Menu.mineBar\setValue 1
 
-    Menu.minebBtn\setEnabled false
+    Menu.mineBtn\setEnabled false
+
 
   stopMinning: =>
-    @minnigTimer\destroy!
+    @lastAccHeat = @accHeat
+    if @lastAccHeat > 5
+      @heat += @lastAccHeat
+    @accHeat = 5
+    @isMining = false
+    @freez false
+    @timer\cancel 'minnigTimer'
+    @timer\cancel 'Ttimer'
+    @timer\cancel 'TAtimer'
+    Menu.mineBar\setValue 1
+    Menu.mineBtn\setEnabled true
+    if @isMining == false and @heat > 5
+      @fHeat = Flux.to self, @cooling + (@lastAccHeat * 0.2), {heat: 5}
+      @fHeat\oncomplete () ->
+        Flux\remove @fHeat
+        @fHeat = nil
+
+
 
 
 
