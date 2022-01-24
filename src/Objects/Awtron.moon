@@ -13,6 +13,8 @@ export class Awtron extends GameObject
 
     @freezed = false
 
+    @isCharging = false
+
     @inventory = assert require 'src/Inventory'
 
     @x, @y = ww/2, wh - 62
@@ -26,8 +28,8 @@ export class Awtron extends GameObject
 
     @maxV = 100
 
-    @battery = 90 -- %
-    @heat = 5 -- c
+    @battery = 100 -- %
+    @heat = 0 -- c
     @net = 50 -- %
     @cpu = 20 -- %
 
@@ -35,16 +37,17 @@ export class Awtron extends GameObject
 
     -- Rates of discharge
     @batteryR = 20 -- -20% every 30s
+    @batteryC = 10
 
     -- Accumulated Heat
-    @accHeat = 5
+    @accHeat = 0
     @lastAccHeat = 0
 
     -- Cooling
     @cooling = 50
 
     -- @Desc : Cpu speed is the ammount of coins you mine every 15s
-    @cpuSpeed = 0.5 -- default
+    @cpuSpeed = 2.5 -- default
 
     @spriteSheetMovement = Graphics.newImage 'assets/AwtronV2.png'
     --@spriteSheetEmo = Graphics.newImage 'assets/AwtronEmo.png'
@@ -69,20 +72,31 @@ export class Awtron extends GameObject
 
     -- Timers
     @timer\every 'battery', 30, ->
-      @battery -= @batteryR
-      @battery = love.math.clamp @battery, 1, 100
-      @heat += @accHeat
+      if @isCharging == false
+        @battery -= @batteryR
+        @battery = love.math.clamp @battery, 0, 100
+        @heat += @accHeat
 
 
   update: (dt) =>
     super dt
+    if @battery == 0 or @heat == 100
+      Menu.root\removeChildCore Menu.exit
+      Menu.root\removeChildCore Menu.settings
+      Menu.root\removeChildCore Menu.console
+      Menu.root\removeChildCore Menu.battryC
+      Menu.root\removeChildCore Menu.heatC
+      Menu.root\removeChildCore Menu.procC
+      Menu.root\removeChildCore Menu.interC
+      Menu.root\removeChildCore Menu.playerPopUp
+      Utils.room.gotoRoom 'Dead'
+
     Menu.playerPopUp\setPos @x - 5 , @y - 43
     Menu.heatBar\setValue @heat
     Menu.batteryBar\setValue @battery
     Menu.coinV\setText @inventory.coin
     Menu.Cpu\setText @cpu.."%"
     Menu.Net\setText @net.."%"
-
 
     ww = G_baseW/opts.scale
 
@@ -125,6 +139,7 @@ export class Awtron extends GameObject
     @isMining = true
     @freez true
     @minnigTimer = @timer\every 'minnigTimer', 15,(c) ->
+      Sounds.coin\play!
       @inventory.coin += @cpuSpeed
       if @accHeat < 100
         @accHeat += 5
@@ -140,9 +155,9 @@ export class Awtron extends GameObject
 
   stopMinning: =>
     @lastAccHeat = @accHeat
-    if @lastAccHeat > 5
+    if @lastAccHeat > 0
       @heat += @lastAccHeat
-    @accHeat = 5
+    @accHeat = 0
     @isMining = false
     @freez false
     @timer\cancel 'minnigTimer'
@@ -156,7 +171,30 @@ export class Awtron extends GameObject
         Flux\remove @fHeat
         @fHeat = nil
 
+  equipe: (item) =>
+    if item.it == "battery"
+      @batteryR = item.dischargeRate
+      @batteryc = item.chargeRate
+    elseif item.it == "cpu"
+      @cpuSpeed = item.power
+    elseif item.it == "wifi card"
+      @net = item.power
+    elseif item.it == "fan"
+      @cooling = item.power
 
+  startCharging: =>
+    @isCharging = true
+    @freez true
+
+    @chargerTimer = @timer\every 'chargerTimer', 15,(c) ->
+      if @battery < 100
+        @battery += @batteryC
+        Menu.chargeVal\setText @battery
+
+  stopCharging: =>
+    @isCharging = false
+    @freez false
+    @timer\cancel 'chargerTimer'
 
 
 

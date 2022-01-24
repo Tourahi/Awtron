@@ -43,6 +43,8 @@ with ProgressBar
     barW = @value / (@maxValue - @minValue) * box\getWidth!
     if barW < 0
       barW = 0
+    elseif barW == 0
+      barW = 0.1
     elseif barW > box\getWidth!
       barW = box\getWidth!
 

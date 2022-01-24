@@ -1,5 +1,11 @@
 
 
 return {
-  coin: 0
+  coin: 50
+  items: {
+    battery: {}
+    wifi: {}
+    cpu: {}
+    fan: {}
+  }
 }

@@ -15,7 +15,6 @@ Menu = {}
 with Menu
   .init = (player) =>
     Graphics = love.graphics
-    Log.debug "Menu initialized."
 
     @padding = 16 + 10 -- 16 size of the wall tile
 
@@ -103,6 +102,7 @@ with Menu
       \setEnabled true
       \setText "X"
       \onClick ->
+        Sounds.select\play!
         Event = love.event
         Event.quit!
 
@@ -112,6 +112,7 @@ with Menu
       \setEnabled true
       \setIcon 'assets/Settings.png'
       \setPadding 4
+      \setEnabled false
       \onClick ->
         return
 
@@ -161,7 +162,9 @@ with Menu
 
     @initCoffer!
     @initGatewayComputer!
+    @initItemInfo!
     @initMiniScreen!
+    @initChargeView!
 
 
     @root\addChildCore @exit
@@ -174,6 +177,90 @@ with Menu
     @root\addChildCore @playerPopUp
 
 
+  .showStart = =>
+    @root = MManager\getInstanceRoot!
+    @Start = SelectOpt\new Fonts.FD,
+      "Awtron", Colors.blueviolet, 150
+    @Start\setEnabled false
+    @startbtn = Button\new!
+
+    with @startbtn
+      \setPos 380, 300
+      \setSize 200, 50
+      \setText "Start"
+      \setFont Fonts.FD
+      \onClick =>
+        Sounds.startGame\play!
+        Menu.root\removeChildCore Menu.Start
+        Menu.root\removeChildCore Menu.startbtn
+        Menu.Start = nil
+        Menu.startbtn = nil
+        Utils.room.gotoRoom 'Stage'
+
+    @Start\setPos 140, 100
+
+    @root\addChildCore @Start
+    @root\addChildCore @startbtn
+
+  .showDead = =>
+    @root = MManager\getInstanceRoot!
+    @Start = SelectOpt\new Fonts.FD,
+      "Dead. RIPBOZO.", Colors.blueviolet, 90
+    @Start\setEnabled false
+    @startbtn = Button\new!
+
+    with @startbtn
+      \setPos 380, 300
+      \setSize 200, 50
+      \setText "End."
+      \setFont Fonts.FD
+      \onClick =>
+        Sounds.select\play!
+        Event = love.event
+        Menu.root\removeChildCore Menu.Start
+        Menu.root\removeChildCore Menu.startbtn
+        Menu.Start = nil
+        Menu.startbtn = nil
+        Event.quit!
+
+
+    @Start\setPos 140, 100
+
+    @root\addChildCore @Start
+    @root\addChildCore @startbtn
+
+
+  .initChargeView = =>
+    @chargeView = Content\new!
+    @chargeVal = SelectOpt\new Fonts.BPixel,
+      0, Colors.white, 8
+    @chargeVal\setDrawBg false
+    @chargeVal\setPos 2,5
+    with @chargeView
+      \setSize 20, 20
+      \setEnabled false
+      \setPos 422, 118
+      \setStroke 2
+      \addChild @chargeVal
+
+
+
+  .addChargeView = =>
+    Sounds.charge\play!
+    @root\addChildCore @chargeView
+
+  .removeChargeView = =>
+    @root\removeChildCore @chargeView
+
+  .initItemInfo = =>
+
+    with @itemType = SelectOpt\new Fonts.BPixel, "", Colors.white, 15
+      \setPos 15, 1.5
+      \setDrawBg false
+
+    with @itemProperty = SelectOpt\new Fonts.BPixel, "", Colors.white, 15
+      \setPos 15, 25
+      \setDrawBg false
 
   .initCoffer = =>
     @cofferSlots = {}
@@ -198,6 +285,12 @@ with Menu
         \setEnabled true
       _i += 1
 
+  .checkTransaction = (price) =>
+    if Inv.coin >= price
+      Inv.coin -= price
+      return true
+    return false
+
 
   .initMiniScreen = =>
     Graphics = love.graphics
@@ -220,18 +313,38 @@ with Menu
     _i = 1
 
     for i, v in ipairs @itemSlots
-      if _i == 6 --math.floor(#Items/2) + 1
+      if _i == 7 --math.floor(#Items/2) + 1
         oy += 20
         _i = 1
 
       logo = {}
-      print i
       with Items[i].icon = ImageCanvas\new Graphics.newImage(Items[i].icon)
         \setPos 1, 0.5
       Items[i].icon.p = Items[i].p
+      Items[i].icon.id = Items[i].id
+      Items[i].icon.it = Items[i].type
+      Items[i].icon.ip = Items[i].property
+      Items[i].icon.power = Items[i].power
+      Items[i].icon.chargeRate = Items[i].chargeRate
+      Items[i].icon.dischargeRate = Items[i].dischargeRate
+
+      --@itemType
+      --@itemProperty
       Items[i].icon\onClick =>
-        print @p
-        Menu.price\setText @p
+        Sounds.select\play!
+        Menu.buyBtn\setEnabled true
+        Menu.buyBtn\setText "Buy"
+
+        if @chargeRate == nil
+          Menu.price\setText @p
+          Menu.itemType\setText @it
+          Menu.itemProperty\setText @ip ..' : '.. @power
+          Menu.selectedShopItem = @id
+        else
+          Menu.price\setText @p
+          Menu.itemType\setText @it
+          Menu.itemProperty\setText @ip ..' : '.. @chargeRate .. '/' .. @dischargeRate
+          Menu.selectedShopItem = @id
 
       with @itemSlots[i]
         \setSize 20, 20
@@ -255,6 +368,22 @@ with Menu
       \setDisableColor Colors.crimson
       \setDownColor Colors.mediumseagreen
       \setText "Buy"
+      \onClick =>
+        for i, item in pairs Items
+          if item.icon.id == Menu.selectedShopItem
+            if Menu\checkTransaction(item.icon.p)
+              table.insert Inv.items, item.icon
+              Menu.itemSlots[i]\removeChild item.icon
+              Menu.buyBtn\setEnabled false
+              Menu.buyBtn\setText "Done"
+              Menu.buyBtn\setDisableColor Colors.green
+              Menu.player\equipe item.icon
+              Sounds.upgrade\play!
+            else
+              Menu.buyBtn\setEnabled false
+              Menu.buyBtn\setText "Failed"
+              Menu.buyBtn\setDisableColor Colors.red
+              Menu.player\equipe item.icon
 
     with @priceScreen
       \setSize 50, 20
@@ -272,7 +401,17 @@ with Menu
       \addChild @priceScreen
       \addChild @buyBtn
 
+  .initShop = =>
+    @itemType\setText ""
+    @itemProperty\setText ""
+    @console\addChild @itemType
+    @console\addChild @itemProperty
     @root\addChildCore @MiniScreen
+
+  .removeShop = =>
+    @console\removeChild @itemType
+    @console\removeChild @itemProperty
+    @root\removeChildCore @MiniScreen
 
   .initGatewayComputer = =>
     Graphics = love.graphics
@@ -308,6 +447,7 @@ with Menu
       \setText "Mine"
       \onClick =>
         --player\freez true
+        Sounds.select\play!
         player\mine!
         Menu.playerPopUp\setText "S"
         Menu.playerPopUp\setVisible true
@@ -319,6 +459,7 @@ with Menu
       \setFont Fonts.Pixel
       \setBorderColor Colors.black
       \setText "Update"
+      \setEnabled false
 
     with @shop
       \setSize 70.5, 22.5
@@ -326,6 +467,10 @@ with Menu
       \setFont Fonts.Pixel
       \setBorderColor Colors.black
       \setText "Shop"
+      \onClick =>
+        Sounds.select\play!
+        Menu\hideGatewayComputer!
+        Menu\initShop!
 
     @mineBar = ProgressBar!
     with @mineBar
@@ -370,6 +515,21 @@ with Menu
 
   .showCoffer = =>
     @cofferOn = true
+    invItemsNum = #Inv.items
+    if invItemsNum > 0
+      for i, item in ipairs Inv.items
+        item\setEnabled false
+        item\onClick =>
+          Sounds.select\play!
+          @parent\setDisableColor Colors.silver
+        if item.it == "battery"
+          @cofferSlots[1]\addChild item
+        elseif item.it == "cpu"
+          @cofferSlots[2]\addChild item
+        elseif item.it == "wifi card"
+          @cofferSlots[3]\addChild item
+        elseif item.it == "fan"
+          @cofferSlots[4]\addChild item
     for i, v in ipairs @cofferSlots
       @console\addChild @cofferSlots[i]
 

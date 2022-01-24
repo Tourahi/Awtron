@@ -14,12 +14,12 @@ export class Stage
     with @area.world
       \addCollisionClass 'Awtron'
       \addCollisionClass 'Coffer'
+      \addCollisionClass 'Charger'
       --\addCollisionClass 'Projectile', {ignores: {'Projectile', 'Player', 'Bebop'}}
       --\addCollisionClass 'Collectable', {ignores: {'Collectable', 'Projectile', 'Bebop'}}
 
     @player = @area\addGameObject 'Awtron'
 
-    Log.debug @map.tilewidth
     @camera = Camera 0, 0, nil, nil, 2, 0, @map.width * @map.tilewidth, @map.height * @map.tilewidth
     @camera\setScale 2
     @camera\setFollowStyle "LOCKED"

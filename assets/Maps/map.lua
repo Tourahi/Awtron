@@ -327,19 +327,6 @@ return {
           properties = {}
         },
         {
-          id = 7,
-          name = "EnergyMonitor",
-          type = "",
-          shape = "rectangle",
-          x = 416.188,
-          y = 112.188,
-          width = 31.75,
-          height = 31.625,
-          rotation = 0,
-          visible = false,
-          properties = {}
-        },
-        {
           id = 9,
           name = "Updater",
           type = "",
@@ -349,7 +336,7 @@ return {
           width = 30.5,
           height = 31,
           rotation = 0,
-          visible = true,
+          visible = false,
           properties = {}
         }
       }

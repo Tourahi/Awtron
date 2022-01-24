@@ -1,73 +1,106 @@
 
 return {
-
   [1]: {
     id: UID!
     icon: "assets/items/batr1.png"
-    chargeRate: 15 -- +15% every 30s
+    chargeRate: 20 -- +15% every 30s
     dischargeRate: 15 -- -10% every 30s
-    p: "50"
+    p: 50
+    property: "C/D rates"
     type: "battery"
   }
   [2]: {
     id: UID!
     icon: "assets/items/batr2.png"
-    chargeRate: 20
+    chargeRate: 25
     dischargeRate: 10
-    p: "100"
+    property: "C/D rates"
+    p: 100
     type: "battery"
   }
   [3]: {
     id: UID!
     icon: "assets/items/batr3.png"
     chargeRate: 30
-    dischargeRate: 5
-    p: "200"
+    dischargeRate: 2.5
+    property: "C/D rates"
+    p: 200
     type: "battery"
   }
 
   [4]: {
     id: UID!
     icon: "assets/items/wifiC1.png"
-    range: 50
-    p: "20"
-    type: "wific"
+    power: 50
+    property: "Range"
+    p: 20
+    type: "wifi card"
   }
   [5]: {
     id: UID!
     icon: "assets/items/wifiC2.png"
-    range: 75
-    p: "50"
-    type: "wific"
+    power: 75
+    p: 50
+    property: "Range"
+    type: "wifi card"
   }
   [6]: {
     id: UID!
     icon: "assets/items/wifiC3.png"
-    range: 100
-    p: "100"
-    type: "wific"
+    power: 100
+    p: 100
+    property: "Range"
+    type: "wifi card"
   }
 
   [7]: {
     id: UID!
     icon: "assets/items/fan1.png"
-    cooling: 10
-    p: "50"
+    power: 40
+    p: 50
+    property: "Cooling"
     type: "fan"
   }
   [8]: {
     id: UID!
     icon: "assets/items/fan2.png"
-    cooling: 20
-    p: "100"
+    power: 25
+    p: 100
+    property: "Cooling"
     type: "fan"
   }
   [9]: {
     id: UID!
     icon: "assets/items/fan3.png"
-    cooling: 30
-    p: "200"
+    power: 10
+    p: 200
+    property: "Cooling"
     type: "fan"
+  }
+
+  [10]: {
+    id: UID!
+    icon: "assets/items/cpu1.png"
+    power: 5
+    property: "Speed"
+    p: 50
+    type: "cpu"
+  }
+  [11]: {
+    id: UID!
+    icon: "assets/items/cpu2.png"
+    power: 10
+    property: "Speed"
+    p: 100
+    type: "cpu"
+  }
+  [12]: {
+    id: UID!
+    icon: "assets/items/cpu3.png"
+    power: 20
+    property: "Speed"
+    p: 200
+    type: "cpu"
   }
 
 }

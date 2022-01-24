@@ -129,7 +129,6 @@
  <objectgroup id="6" name="Objects" visible="0">
   <object id="3" name="Coffer" x="17" y="272.25" width="30.5" height="31.5" visible="0"/>
   <object id="6" name="Charger" x="416.375" y="272.375" width="31.625" height="32" visible="0"/>
-  <object id="7" name="EnergyMonitor" x="416.188" y="112.188" width="31.75" height="31.625" visible="0"/>
-  <object id="9" name="Updater" x="288.75" y="272.5" width="30.5" height="31"/>
+  <object id="9" name="Updater" x="288.75" y="272.5" width="30.5" height="31" visible="0"/>
  </objectgroup>
 </map>

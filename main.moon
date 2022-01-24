@@ -2,7 +2,7 @@ M = assert require 'moon'
 export Dump = M.p
 assert require "engine"
 assert require "opts"
-
+export Audio = love.audio
 
 -- Utils
 export Utils = assert require 'utils'
@@ -24,9 +24,19 @@ with love
     Graphics.setDefaultFilter 'nearest', 'nearest'
     Graphics.setLineStyle 'rough'
 
+    export Sounds = {
+      charge: Audio.newSource "assets/music/charge.wav", "stream"
+      coin: Audio.newSource "assets/music/coin.wav", "stream"
+      danger: Audio.newSource "assets/music/danger.wav", "stream"
+      select: Audio.newSource "assets/music/select.wav", "stream"
+      startGame: Audio.newSource "assets/music/startGame.wav", "stream"
+      upgrade: Audio.newSource "assets/music/upgrade.wav", "stream"
+    }
+
     export Fonts = {
       Pixel: 'assets/fonts/datcub-font/Datcub-eZO2g.ttf'
       BPixel: 'assets/fonts/datcub-font/DatcubBold-4BMy6.ttf'
+      FD: 'assets/fonts/FoundationTitlesHand/FoundationTitlesHand-SemiBold-v0.85.ttf'
     }
 
     export input = Input!
@@ -39,7 +49,7 @@ with love
     Utils.recEnumerate 'Rooms', roomFiles
     Utils.requireFiles roomFiles
 
-    Utils.room.gotoRoom 'Stage'
+    Utils.room.gotoRoom 'Start'
 
     input\bindArr {
       'right': 'right'
@@ -52,9 +62,11 @@ with love
       'u': 'u'
       'l': 'l'
       's': 's'
+      'c': 'c'
       'return': 'enter'
       'escape': 'escape'
     }
+
 
 
   .update = (dt) ->
@@ -67,7 +79,6 @@ with love
   .draw = ->
     Graphics = love.graphics
     if G_currentRoom then G_currentRoom\draw!
-    Graphics.print("FPS: "..tostring(love.timer.getFPS( )), 50, 250)
 
   .mousepressed = (x, y, button) ->
     G_currentRoom\mousepressed x, y, button

@@ -37,5 +37,6 @@ export class Updater extends InteractiveObject
     if @collider\exit 'Awtron'
       Menu.playerPopUp\setVisible false
       @area.room.player\stopMinning!
+      Menu\removeShop!
       if Menu.computerOn
         Menu\hideGatewayComputer!
